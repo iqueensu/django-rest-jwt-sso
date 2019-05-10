@@ -25,7 +25,7 @@ setup(
     author="Somion",
     author_email="calibur.tonyt@gmail.com",
     classifiers=[
-        "Development Status :: 1 - Alpha",
+        "Development Status :: 1 - Planning",
         "Environment :: Web Environment",
         "Framework :: Django",
         "Framework :: Django :: 2.2",
