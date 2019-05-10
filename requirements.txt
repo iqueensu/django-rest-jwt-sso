@@ -1,0 +1,4 @@
+Django>=2.2
+djangorestframework>=3.9.0
+PyJWT>=1.7.0
+cryptography>=2.6.0
