@@ -8,6 +8,3 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-
-def hw(self, request):
-    return HttpResponse("Hello, World!")
