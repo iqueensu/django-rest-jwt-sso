@@ -8,6 +8,8 @@ from nacl.bindings import crypto_sign_SEEDBYTES
 from nacl.encoding import URLSafeBase64Encoder
 from nacl.exceptions import BadSignatureError
 
+from rest_framework_jwt_sso.settings import api_settings
+
 
 class EdDSA25519Algorithm(Algorithm):
     def prepare_key(self, key):
@@ -21,10 +23,18 @@ class EdDSA25519Algorithm(Algorithm):
 
     def sign(self, msg, key):
         signing_key = SigningKey(key, encoder=URLSafeBase64Encoder)
+
+        assert issubclass(ADST, SaltMethod)
+        msg = ADST.add_salt(msg, b'abcdefg')
+
         return signing_key.sign(msg).signature
 
     def verify(self, msg, key, sig):
         verify_key = VerifyKey(key, encoder=URLSafeBase64Encoder)
+
+        assert issubclass(ADST, SaltMethod)
+        msg = ADST.add_salt(msg, b'abcdefg')
+
         try:
             verify_key.verify(msg, sig)
             return True
@@ -38,3 +48,32 @@ class EdDSA25519Algorithm(Algorithm):
     @staticmethod
     def from_jwk(jwk):
         raise NotImplementedError
+
+
+class SaltMethod(object):
+    @staticmethod
+    def add_salt(msg,  # type: bytes
+                 salt,  # type: bytes
+                 ):
+        """
+        Performs everything needed to mix the salt into msg
+        :param msg: The source message
+        :param salt: Salt from settings
+        :return: msg salted
+        """
+        raise NotImplementedError
+
+
+class DefaultSalt(SaltMethod):
+    @staticmethod
+    def add_salt(msg, salt):
+        assert isinstance(msg, bytes) and isinstance(salt, bytes), "You have to pass in bytes"
+        msg_arr = bytearray(msg)
+
+        out = msg_arr[:int(len(msg) / 2)]
+        out.extend(salt)
+        out.extend(msg_arr[int(len(msg) / 2):])
+        return bytes(out)
+
+
+ADST = api_settings.SALT_METHOD

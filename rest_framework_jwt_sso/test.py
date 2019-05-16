@@ -3,4 +3,5 @@ import time
 
 jwt_api = EdJWT()
 res = jwt_api.encode({'some': 'payload'})
+print(res)
 out = jwt_api.decode(res)
