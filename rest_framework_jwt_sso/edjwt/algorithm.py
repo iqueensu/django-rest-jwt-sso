@@ -21,22 +21,25 @@ class EdDSA25519Algorithm(Algorithm):
             else:
                 raise InvalidKeyError
 
+    @staticmethod
+    def add_salt(msg):
+        ADST = api_settings.SALT_METHOD
+        assert issubclass(ADST, SaltMethod)
+
+        SALT = api_settings.SIGN_SALT
+        assert SALT is not None, "Please set the SIGN_SALT value in settings"
+        assert isinstance(SALT, bytes), "SIGN_SALT have to be bytes literal value"
+
+        return ADST.add_salt(msg, SALT)
+
     def sign(self, msg, key):
         signing_key = SigningKey(key, encoder=URLSafeBase64Encoder)
-
-        assert issubclass(ADST, SaltMethod)
-        msg = ADST.add_salt(msg, b'abcdefg')
-
-        return signing_key.sign(msg).signature
+        return signing_key.sign(self.add_salt(msg)).signature
 
     def verify(self, msg, key, sig):
         verify_key = VerifyKey(key, encoder=URLSafeBase64Encoder)
-
-        assert issubclass(ADST, SaltMethod)
-        msg = ADST.add_salt(msg, b'abcdefg')
-
         try:
-            verify_key.verify(msg, sig)
+            verify_key.verify(self.add_salt(msg), sig)
             return True
         except BadSignatureError:
             return False
@@ -74,6 +77,3 @@ class DefaultSalt(SaltMethod):
         out.extend(salt)
         out.extend(msg_arr[int(len(msg) / 2):])
         return bytes(out)
-
-
-ADST = api_settings.SALT_METHOD
