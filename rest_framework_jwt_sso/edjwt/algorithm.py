@@ -8,7 +8,7 @@ from nacl.bindings import crypto_sign_SEEDBYTES
 from nacl.encoding import URLSafeBase64Encoder
 from nacl.exceptions import BadSignatureError
 
-from rest_framework_jwt_sso.settings import api_settings
+from rest_framework_jwt_sso.settings import jwt_sso_api_settings
 
 
 class EdDSA25519Algorithm(Algorithm):
@@ -23,10 +23,10 @@ class EdDSA25519Algorithm(Algorithm):
 
     @staticmethod
     def add_salt(msg):
-        ADST = api_settings.SALT_METHOD
+        ADST = jwt_sso_api_settings.SALT_METHOD
         assert issubclass(ADST, SaltMethod)
 
-        SALT = api_settings.SIGN_SALT
+        SALT = jwt_sso_api_settings.SIGN_SALT
         assert SALT is not None, "Please set the SIGN_SALT value in settings"
         assert isinstance(SALT, bytes), "SIGN_SALT have to be bytes literal value"
 

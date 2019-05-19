@@ -1,5 +1,5 @@
 __title__ = "django-rest-jwt-sso"
-__version__ = "0.0.5"
+__version__ = "0.0.6"
 __author__ = "iQueensu: Sky, Somion"
 __license__ = "MIT"
 __copyright__ = "Copyright 2019 iQueensu"
