@@ -4,7 +4,7 @@ from setuptools import find_packages, setup
 import rest_framework_jwt_sso
 
 
-INSTALL_REQUIRES = ["PyJWT>=1.7.0", "Django>=2.2", "djangorestframework>=3.9.0", "cryptography>=2.6.0"]
+INSTALL_REQUIRES = ["PyJWT>1.5", "Django>=2", "djangorestframework>3", "cryptography>2"]
 
 
 with open(os.path.join(os.path.dirname(__file__), "README.rst")) as readme:
