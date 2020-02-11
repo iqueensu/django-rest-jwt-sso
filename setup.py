@@ -4,7 +4,7 @@ from setuptools import find_packages, setup
 import rest_framework_jwt_sso
 
 
-INSTALL_REQUIRES = ["PyJWT>1.5", "Django>=2", "djangorestframework>3", "cryptography>2.5", "PyNaCl>1.2"]
+INSTALL_REQUIRES = ["PyJWT>1.5", "Django>3", "djangorestframework>3", "cryptography>2.5", "PyNaCl>1.2"]
 
 
 with open(os.path.join(os.path.dirname(__file__), "README.rst")) as readme:
@@ -29,12 +29,12 @@ setup(
         "Development Status :: 1 - Planning",
         "Environment :: Web Environment",
         "Framework :: Django",
-        "Framework :: Django :: 2.2",
+        "Framework :: Django :: 3.0",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
         "Topic :: Internet :: WWW/HTTP",
         "Topic :: Internet :: WWW/HTTP :: Session",
         "Topic :: Software Development :: Libraries :: Python Modules",
